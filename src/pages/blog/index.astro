@@ -1,111 +1,61 @@
 ---
-import { Image } from 'astro:assets';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { SITE_TITLE } from '../../consts';
 import { getPosts } from '../../lib/posts';
 
 const posts = await getPosts();
+
+const postsByYear = posts.reduce((years, post) => {
+	const year = post.data.pubDate.getFullYear();
+	(years.get(year) ?? years.set(year, []).get(year)).push(post);
+	return years;
+}, new Map());
 ---
 
 <!doctype html>
 <html lang="en" class="dark">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: var(--blog-accent);
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
+		<BaseHead title={`Blog · ${SITE_TITLE}`} description="Posts about code, projects, and things I'm learning." />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
+			<section class="mt-8 mb-10">
+				<h1 class="text-4xl! mb-2">Blog</h1>
+				<p class="text-muted-foreground mb-0!">
+					{posts.length} post{posts.length === 1 ? '' : 's'} so far. Mostly code, occasionally not.
+				</p>
 			</section>
+
+			{
+				[...postsByYear.entries()].map(([year, yearPosts]) => (
+					<section class="mb-8">
+						<h2 class="text-base! font-medium text-muted-foreground! border-b border-border pb-2 mb-1">
+							{year}
+						</h2>
+						<ul class="list-none m-0 p-0">
+							{yearPosts.map((post) => (
+								<li class="border-t border-border first:border-t-0">
+									<a class="group block py-4 no-underline" href={`/blog/${post.id}/`}>
+										<div class="flex items-baseline justify-between gap-4 max-sm:flex-col max-sm:gap-0.5">
+											<span class="font-semibold text-foreground transition-colors group-hover:text-(--blog-accent)">
+												{post.data.title}
+											</span>
+											<span class="text-sm text-muted-foreground whitespace-nowrap">
+												<FormattedDate date={post.data.pubDate} />
+											</span>
+										</div>
+										<p class="text-sm text-muted-foreground mt-1 mb-0!">{post.data.description}</p>
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				))
+			}
 		</main>
 		<Footer />
 	</body>

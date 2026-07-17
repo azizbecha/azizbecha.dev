@@ -4,18 +4,21 @@ import { FOOTER_LINKS } from '../consts';
 const year = new Date().getFullYear();
 ---
 
-<footer>
-	<div class="terminal">
-		<p class="prompt">
-			<span class="user">aziz@web</span><span class="dim">:</span><span class="path">~</span><span class="dim">$</span>
-			<span class="cmd">ls ./links</span>
+<footer class="px-4 border-t border-border text-muted-foreground">
+	<div class="w-full max-w-[60rem] mx-auto py-8 font-mono text-xs">
+		<p class="flex items-center gap-1 m-0!">
+			<span class="text-(--blog-accent)">aziz@web</span><span>:</span><span class="text-foreground/85">~</span><span>$</span>
+			<span class="text-foreground">ls ./links</span>
 		</p>
-		<p class="ls-output">
+		<p class="flex flex-wrap gap-x-3 gap-y-1.5 mt-1.5 mb-4!">
 			{
 				FOOTER_LINKS.map((link) => (
 					<a
 						href={link.href}
-						class:list={[{ dir: link.dir }]}
+						class:list={[
+							'no-underline hover:underline',
+							link.dir ? 'text-(--blog-accent) font-bold' : 'text-foreground/85',
+						]}
 						target={link.external ? '_blank' : undefined}
 						rel={link.external ? 'noopener noreferrer' : undefined}
 					>
@@ -24,112 +27,14 @@ const year = new Date().getFullYear();
 				))
 			}
 		</p>
-		<div class="footer-line">
-			<p class="prompt">
-				<span class="user">aziz@web</span><span class="dim">:</span><span class="path">~</span><span class="dim">$</span>
-				<span class="cmd">exit 0</span><span class="cursor" aria-hidden="true"></span>
+		<div class="flex items-center justify-between gap-6 max-sm:flex-col max-sm:items-start max-sm:gap-3">
+			<p class="flex items-center gap-1 m-0!">
+				<span class="text-(--blog-accent)">aziz@web</span><span>:</span><span class="text-foreground/85">~</span><span>$</span>
+				<span class="text-foreground">exit 0</span><span
+					class="inline-block w-[0.6ch] h-[1.1em] bg-(--blog-accent) animate-caret-blink motion-reduce:animate-none"
+					aria-hidden="true"></span>
 			</p>
-			<span class="signature">&copy; {year} &middot; no rights reserved</span>
+			<span class="text-muted-foreground/75 whitespace-nowrap">&copy; {year} &middot; no rights reserved</span>
 		</div>
 	</div>
 </footer>
-
-<style>
-	footer {
-		padding: 0 1rem;
-		border-top: 1px solid var(--border);
-		color: var(--muted-foreground);
-	}
-
-	.terminal {
-		width: min(100%, 60rem);
-		margin: 0 auto;
-		padding: 2rem 0;
-		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-		font-size: 0.78rem;
-	}
-
-	.prompt {
-		display: flex;
-		align-items: center;
-		gap: 0.45ch;
-		margin: 0;
-	}
-
-	.user {
-		color: var(--blog-accent);
-	}
-
-	.path {
-		color: rgb(var(--gray-dark));
-	}
-
-	.dim {
-		color: var(--muted-foreground);
-	}
-
-	.cmd {
-		color: rgb(var(--black));
-	}
-
-	.ls-output {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4rem 2ch;
-		margin: 0.35rem 0 1rem;
-	}
-
-	.ls-output a {
-		color: rgb(var(--gray-dark));
-		text-decoration: none;
-	}
-
-	.ls-output a.dir {
-		color: var(--blog-accent);
-		font-weight: 700;
-	}
-
-	.ls-output a:hover {
-		text-decoration: underline;
-	}
-
-	.footer-line {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1.5rem;
-	}
-
-	.cursor {
-		display: inline-block;
-		width: 0.6ch;
-		height: 1.1em;
-		background: var(--blog-accent);
-		animation: blink 1.1s steps(1) infinite;
-	}
-
-	@keyframes blink {
-		50% {
-			opacity: 0;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.cursor {
-			animation: none;
-		}
-	}
-
-	.signature {
-		color: color-mix(in oklch, var(--muted-foreground), transparent 25%);
-		white-space: nowrap;
-	}
-
-	@media (max-width: 520px) {
-		.footer-line {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 0.75rem;
-		}
-	}
-</style>

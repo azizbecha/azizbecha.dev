@@ -3,16 +3,25 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
+<header class="m-0 px-4 bg-background shadow-[0_1px_0_var(--border)]">
+	<nav class="flex items-center justify-between min-h-16">
+		<h2 class="text-xl! m-0!">
+			<a
+				class="inline-flex items-center min-h-10 px-3 rounded-md text-foreground! no-underline hover:bg-muted"
+				href="/">{SITE_TITLE}</a
+			>
+		</h2>
+		<div class="flex items-center gap-1">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
-		<div class="social-links">
-			<a href="https://m.webtoo.ls/@astro" target="_blank">
+		<div class="hidden md:flex gap-1">
+			<a
+				class="flex items-center justify-center size-10 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+				href="https://m.webtoo.ls/@astro"
+				target="_blank"
+			>
 				<span class="sr-only">Follow Astro on Mastodon</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -21,7 +30,11 @@ import HeaderLink from './HeaderLink.astro';
 					></path></svg
 				>
 			</a>
-			<a href="https://twitter.com/astrodotbuild" target="_blank">
+			<a
+				class="flex items-center justify-center size-10 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+				href="https://twitter.com/astrodotbuild"
+				target="_blank"
+			>
 				<span class="sr-only">Follow Astro on Twitter</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -30,7 +43,11 @@ import HeaderLink from './HeaderLink.astro';
 					></path></svg
 				>
 			</a>
-			<a href="https://github.com/withastro/astro" target="_blank">
+			<a
+				class="flex items-center justify-center size-10 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+				href="https://github.com/withastro/astro"
+				target="_blank"
+			>
 				<span class="sr-only">Go to Astro's GitHub repo</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -42,65 +59,3 @@ import HeaderLink from './HeaderLink.astro';
 		</div>
 	</nav>
 </header>
-<style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: var(--background);
-		box-shadow: 0 1px 0 var(--border);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-
-	h2 a,
-	h2 a.active {
-		display: inline-flex;
-		align-items: center;
-		min-height: 2.5rem;
-		padding: 0 0.75rem;
-		border-radius: var(--radius-md);
-		color: var(--foreground);
-		text-decoration: none;
-	}
-	h2 a:hover {
-		background: var(--muted);
-		color: var(--foreground);
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		min-height: 4rem;
-	}
-	.internal-links {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
-	}
-	.social-links,
-	.social-links a {
-		display: flex;
-	}
-	.social-links {
-		gap: 0.25rem;
-	}
-	.social-links a {
-		align-items: center;
-		justify-content: center;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: var(--radius-md);
-		color: var(--muted-foreground);
-	}
-	.social-links a:hover {
-		background: var(--muted);
-		color: var(--foreground);
-	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
-		}
-	}
-</style>

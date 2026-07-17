@@ -17,32 +17,34 @@ const posts = await getPosts(4);
 	<body>
 		<Header />
 		<main>
-			<section class="hero">
-				<h1>Hey, I'm Aziz 👋</h1>
-				<p>
+			<section class="mt-8 mb-14 max-sm:mt-4">
+				<h1 class="text-4xl! mb-3 max-sm:text-3xl!">Hey, I'm Aziz 👋</h1>
+				<p class="text-muted-foreground mb-0! max-w-xl">
 					I'm a software developer who likes building things for the web. This is my corner of the
 					internet — I write about code, projects I'm working on, and whatever I happen to be
 					learning.
 				</p>
 			</section>
 
-			<section class="recent">
-				<div class="recent-head">
-					<h2>Recent writing</h2>
-					<a class="all-posts" href="/blog">All posts &rarr;</a>
+			<section>
+				<div class="flex items-baseline justify-between gap-4 mb-4">
+					<h2 class="text-2xl! m-0!">Recent writing</h2>
+					<a class="text-sm no-underline whitespace-nowrap" href="/blog">All posts &rarr;</a>
 				</div>
-				<ul>
+				<ul class="list-none m-0 p-0">
 					{
 						posts.map((post) => (
-							<li>
-								<a class="post" href={`/blog/${post.id}/`}>
-									<div class="post-row">
-										<span class="post-title">{post.data.title}</span>
-										<span class="post-date">
+							<li class="border-t border-border first:border-t-0">
+								<a class="group block py-4 no-underline" href={`/blog/${post.id}/`}>
+									<div class="flex items-baseline justify-between gap-4 max-sm:flex-col max-sm:gap-0.5">
+										<span class="font-semibold text-foreground transition-colors group-hover:text-(--blog-accent)">
+											{post.data.title}
+										</span>
+										<span class="text-sm text-muted-foreground whitespace-nowrap">
 											<FormattedDate date={post.data.pubDate} />
 										</span>
 									</div>
-									<p class="post-desc">{post.data.description}</p>
+									<p class="text-sm text-muted-foreground mt-1 mb-0!">{post.data.description}</p>
 								</a>
 							</li>
 						))
@@ -52,103 +54,4 @@ const posts = await getPosts(4);
 		</main>
 		<Footer />
 	</body>
-
-	<style>
-		.hero {
-			margin: 2rem 0 3.5rem;
-		}
-
-		.hero h1 {
-			font-size: 2.4em;
-			margin-bottom: 0.75rem;
-		}
-
-		.hero p {
-			color: rgb(var(--gray));
-			margin: 0;
-			max-width: 38rem;
-		}
-
-		.recent-head {
-			display: flex;
-			align-items: baseline;
-			justify-content: space-between;
-			gap: 1rem;
-			margin-bottom: 1rem;
-		}
-
-		.recent-head h2 {
-			font-size: 1.4em;
-			margin: 0;
-		}
-
-		.all-posts {
-			font-size: 0.85em;
-			text-decoration: none;
-			white-space: nowrap;
-		}
-
-		.recent ul {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			display: flex;
-			flex-direction: column;
-		}
-
-		.recent li + li {
-			border-top: 1px solid var(--border);
-		}
-
-		.post {
-			display: block;
-			padding: 1rem 0;
-			text-decoration: none;
-			color: inherit;
-		}
-
-		.post-row {
-			display: flex;
-			align-items: baseline;
-			justify-content: space-between;
-			gap: 1rem;
-		}
-
-		.post-title {
-			color: rgb(var(--black));
-			font-weight: 600;
-			transition: color 0.15s ease;
-		}
-
-		.post:hover .post-title {
-			color: var(--blog-accent);
-		}
-
-		.post-date {
-			color: rgb(var(--gray));
-			font-size: 0.8em;
-			white-space: nowrap;
-		}
-
-		.post-desc {
-			color: rgb(var(--gray));
-			font-size: 0.85em;
-			margin: 0.25rem 0 0;
-		}
-
-		@media (max-width: 520px) {
-			.hero {
-				margin-top: 1rem;
-			}
-
-			.hero h1 {
-				font-size: 1.8em;
-			}
-
-			.post-row {
-				flex-direction: column;
-				gap: 0.15rem;
-			}
-		}
-	</style>
 </html>
