@@ -123,6 +123,17 @@ p {
 .prose p {
 	margin-bottom: 2em;
 }
+.prose .heading-anchor {
+	margin-left: 0.4em;
+	color: var(--blog-accent);
+	text-decoration: none;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+.prose :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor,
+.prose .heading-anchor:focus {
+	opacity: 1;
+}
 textarea {
 	width: 100%;
 	font-size: 16px;

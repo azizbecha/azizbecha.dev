@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.2.1",
     "@astrojs/mdx": "^7.0.3",
     "@astrojs/react": "^6.0.1",
     "@astrojs/rss": "^4.0.19",
@@ -29,6 +30,7 @@
     "pagefind": "^1.5.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "rehype-autolink-headings": "^7.1.0",
     "shadcn": "^4.13.0",
     "sharp": "^0.35.0",
     "tailwind-merge": "^3.6.0",

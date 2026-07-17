@@ -10,7 +10,7 @@ import TagChip from '../components/TagChip.astro';
 
 type AdjacentPost = { id: string; title: string };
 
-type Props = CollectionEntry<'blog'>['data'] & {
+type Props = Omit<CollectionEntry<'blog'>['data'], 'authors'> & {
 	minutes?: number;
 	authors?: CollectionEntry<'authors'>[];
 	prevPost?: AdjacentPost;
@@ -29,7 +29,7 @@ const { title, description, pubDate, updatedDate, heroImage, minutes, authors, t
 	<body>
 		<Header />
 		<main>
-			<article class="w-full max-w-[45rem] mx-auto">
+			<article class="w-full max-w-180 mx-auto">
 				<header class="mb-10">
 					{
 						tags && tags.length > 0 && (
