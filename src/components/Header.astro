@@ -46,8 +46,8 @@ import HeaderLink from './HeaderLink.astro';
 	header {
 		margin: 0;
 		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		background: var(--background);
+		box-shadow: 0 1px 0 var(--border);
 	}
 	h2 {
 		margin: 0;
@@ -56,26 +56,47 @@ import HeaderLink from './HeaderLink.astro';
 
 	h2 a,
 	h2 a.active {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.5rem;
+		padding: 0 0.75rem;
+		border-radius: var(--radius-md);
+		color: var(--foreground);
 		text-decoration: none;
+	}
+	h2 a:hover {
+		background: var(--muted);
+		color: var(--foreground);
 	}
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		min-height: 4rem;
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--blog-accent);
+	.internal-links {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
 	}
 	.social-links,
 	.social-links a {
 		display: flex;
+	}
+	.social-links {
+		gap: 0.25rem;
+	}
+	.social-links a {
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: var(--radius-md);
+		color: var(--muted-foreground);
+	}
+	.social-links a:hover {
+		background: var(--muted);
+		color: var(--foreground);
 	}
 	@media (max-width: 720px) {
 		.social-links {
