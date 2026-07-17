@@ -1,0 +1,80 @@
+[
+	{
+		"name": "How to Get Rich",
+		"host": "Naval",
+		"url": "https://www.youtube.com/watch?v=1-TZqOsVCNM",
+		"note": "The full 'How to Get Rich (without getting lucky)' series in one sitting."
+	},
+	{
+		"name": "44 Harsh Truths About The Game Of Life — Naval Ravikant",
+		"host": "Modern Wisdom · Chris Williamson",
+		"url": "https://www.youtube.com/watch?v=KyfUysrNaco",
+		"note": "Naval on leverage, status games, and playing life on your own terms."
+	},
+	{
+		"name": "Pavel Durov: Telegram, Freedom, Censorship, Money, Power & Human Nature",
+		"host": "Lex Fridman Podcast #482",
+		"url": "https://www.youtube.com/watch?v=qjPH9njnaVU",
+		"note": "The Telegram founder on freedom, censorship, and building against pressure."
+	},
+	{
+		"name": "JRE #1906 — David Goggins",
+		"host": "The Joe Rogan Experience",
+		"url": "https://www.youtube.com/watch?v=AbDT2JTSnA8",
+		"note": "Goggins on discipline and doing the work nobody sees."
+	},
+	{
+		"name": "JRE #1309 — Naval Ravikant",
+		"host": "The Joe Rogan Experience",
+		"url": "https://www.youtube.com/watch?v=3qHkcs3kG44",
+		"note": "The episode that put Naval's philosophy on the map."
+	},
+	{
+		"name": "Blitzscaling 18: Brian Chesky on Launching Airbnb and the Challenges of Scale",
+		"host": "Greylock · Blitzscaling",
+		"url": "https://www.youtube.com/watch?v=W608u6sBFpo",
+		"note": "Chesky on Airbnb's launch, near-death moments, and scaling culture."
+	},
+	{
+		"name": "Airbnb CEO: “Airbnb Was Worth $100 Billion & I Was Lonely & Deeply Sad”",
+		"host": "The Diary of a CEO",
+		"url": "https://www.youtube.com/watch?v=ia6Di_ytiSE",
+		"note": "Chesky on success, loneliness, and what the money doesn't fix."
+	},
+	{
+		"name": "DHH: Future of Programming, AI, Ruby on Rails, Productivity & Parenting",
+		"host": "Lex Fridman Podcast #474",
+		"url": "https://www.youtube.com/watch?v=vagyIcmIGOQ",
+		"note": "DHH on craft, AI, and staying in love with programming."
+	},
+	{
+		"name": "ThePrimeagen: Programming, AI, ADHD, Productivity, Addiction, and God",
+		"host": "Lex Fridman Podcast #461",
+		"url": "https://www.youtube.com/watch?v=tNZnLkRBYA8",
+		"note": "Prime's path from addiction to Netflix engineer to streamer."
+	},
+	{
+		"name": "Andrej Karpathy: Tesla AI, Self-Driving, Optimus, Aliens, and AGI",
+		"host": "Lex Fridman Podcast #333",
+		"url": "https://www.youtube.com/watch?v=cdiD-9MMpb0",
+		"note": "Karpathy on neural nets, Tesla autopilot, and where AGI is heading."
+	},
+	{
+		"name": "FFmpeg: The Incredible Technology Behind Video on the Internet",
+		"host": "Lex Fridman Podcast #496",
+		"url": "https://www.youtube.com/watch?v=nepKKz-MzFM",
+		"note": "The tool quietly powering every video you've ever watched online."
+	},
+	{
+		"name": "How Small Wins Compound Into Greatness — Alex Hormozi",
+		"host": "Modern Wisdom · Chris Williamson",
+		"url": "https://www.youtube.com/watch?v=WO5m-roVzjg",
+		"note": "Hormozi on stacking small wins until the results look inevitable."
+	},
+	{
+		"name": "Creator of Vite: Evan You",
+		"host": "Syntax",
+		"url": "https://www.youtube.com/watch?v=quEc5ZI3_Ys",
+		"note": "Evan You on building Vue, Vite, and betting on open source."
+	}
+]
