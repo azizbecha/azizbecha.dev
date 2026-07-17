@@ -58,8 +58,12 @@ import { SITE_TITLE } from '../consts';
 		<Footer />
 
 		<script>
-			const el = document.getElementById('requested-path');
-			if (el) el.textContent = window.location.pathname;
+			function fillPath() {
+				const el = document.getElementById('requested-path');
+				if (el) el.textContent = window.location.pathname;
+			}
+			fillPath();
+			document.addEventListener('astro:page-load', fillPath);
 		</script>
 	</body>
 </html>

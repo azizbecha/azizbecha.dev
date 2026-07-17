@@ -37,100 +37,117 @@
 </dialog>
 
 <script>
-	const openButton = document.getElementById('search-open') as HTMLButtonElement;
-	const dialog = document.getElementById('search-dialog') as HTMLDialogElement;
-	const input = document.getElementById('search-input') as HTMLInputElement;
-	const results = document.getElementById('search-results') as HTMLUListElement;
-
+	// Pagefind module survives client-side navigations; DOM bindings are re-created per page swap.
 	let pagefind: { search: (q: string) => Promise<{ results: { data: () => Promise<any> }[] }> } | null =
 		null;
-	let selected = 0;
-	let debounceTimer: ReturnType<typeof setTimeout>;
 
-	const message = (text: string) => {
-		results.innerHTML = `<li class="px-3 py-6 text-center text-sm text-muted-foreground">${text}</li>`;
-	};
+	function init() {
+		const openButton = document.getElementById('search-open') as HTMLButtonElement | null;
+		const dialog = document.getElementById('search-dialog') as HTMLDialogElement | null;
+		const input = document.getElementById('search-input') as HTMLInputElement | null;
+		const results = document.getElementById('search-results') as HTMLUListElement | null;
+		if (!openButton || !dialog || !input || !results) return;
+		if (openButton.dataset.bound) return;
+		openButton.dataset.bound = 'true';
 
-	async function loadPagefind() {
-		if (pagefind) return;
-		try {
-			const pagefindPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/pagefind/pagefind.js`;
-			pagefind = await import(/* @vite-ignore */ pagefindPath);
-		} catch {
-			message('Search index not built yet — run <code>astro build</code> first.');
+		let selected = 0;
+		let debounceTimer: ReturnType<typeof setTimeout>;
+
+		const message = (text: string) => {
+			results.innerHTML = `<li class="px-3 py-6 text-center text-sm text-muted-foreground">${text}</li>`;
+		};
+
+		async function loadPagefind() {
+			if (pagefind) return;
+			try {
+				const pagefindPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/pagefind/pagefind.js`;
+				pagefind = await import(/* @vite-ignore */ pagefindPath);
+			} catch {
+				message('Search index not built yet — run <code>astro build</code> first.');
+			}
 		}
+
+		openButton.addEventListener('click', () => openDialog());
+
+		function openDialog() {
+			dialog!.showModal();
+			input!.select();
+			loadPagefind();
+		}
+
+		// Close when clicking the backdrop (clicks outside the dialog's children target the dialog itself).
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+
+		function paintSelection() {
+			for (const [index, item] of [...results!.children].entries()) {
+				item.firstElementChild?.classList.toggle('bg-muted', index === selected);
+			}
+		}
+
+		async function runSearch() {
+			const query = input!.value.trim();
+			if (!query) {
+				results!.innerHTML = '';
+				return;
+			}
+			if (!pagefind) return;
+			const search = await pagefind.search(query);
+			const items = await Promise.all(search.results.slice(0, 8).map((r) => r.data()));
+			if (items.length === 0) {
+				message(`No results for “${query}”`);
+				return;
+			}
+			selected = 0;
+			results!.innerHTML = items
+				.map(
+					(item) => `
+					<li>
+						<a href="${item.url}" class="block rounded-lg px-3 py-2.5 no-underline hover:bg-muted">
+							<span class="block text-sm font-semibold text-foreground!">${item.meta.title ?? item.url}</span>
+							<span class="block text-xs text-muted-foreground [&_mark]:bg-transparent [&_mark]:text-(--blog-accent) [&_mark]:font-semibold">${item.excerpt}</span>
+						</a>
+					</li>`,
+				)
+				.join('');
+			paintSelection();
+		}
+
+		input.addEventListener('input', () => {
+			clearTimeout(debounceTimer);
+			debounceTimer = setTimeout(runSearch, 120);
+		});
+
+		input.addEventListener('keydown', (event) => {
+			const count = results!.children.length;
+			if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+				event.preventDefault();
+				if (!count) return;
+				selected = (selected + (event.key === 'ArrowDown' ? 1 : count - 1)) % count;
+				paintSelection();
+				results!.children[selected]?.scrollIntoView({ block: 'nearest' });
+			} else if (event.key === 'Enter') {
+				const link = results!.children[selected]?.querySelector('a');
+				if (link) window.location.href = link.href;
+			}
+		});
 	}
 
-	function openDialog() {
-		dialog.showModal();
-		input.select();
-		loadPagefind();
-	}
-
-	openButton.addEventListener('click', openDialog);
-
+	// Global shortcut bound once; looks up the current page's dialog at event time.
 	document.addEventListener('keydown', (event) => {
 		if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
 			event.preventDefault();
-			dialog.open ? dialog.close() : openDialog();
+			const dialog = document.getElementById('search-dialog') as HTMLDialogElement | null;
+			if (!dialog) return;
+			if (dialog.open) {
+				dialog.close();
+			} else {
+				(document.getElementById('search-open') as HTMLButtonElement | null)?.click();
+			}
 		}
 	});
 
-	// Close when clicking the backdrop (clicks outside the dialog's children target the dialog itself).
-	dialog.addEventListener('click', (event) => {
-		if (event.target === dialog) dialog.close();
-	});
-
-	function paintSelection() {
-		for (const [index, item] of [...results.children].entries()) {
-			item.firstElementChild?.classList.toggle('bg-muted', index === selected);
-		}
-	}
-
-	async function runSearch() {
-		const query = input.value.trim();
-		if (!query) {
-			results.innerHTML = '';
-			return;
-		}
-		if (!pagefind) return;
-		const search = await pagefind.search(query);
-		const items = await Promise.all(search.results.slice(0, 8).map((r) => r.data()));
-		if (items.length === 0) {
-			message(`No results for “${query}”`);
-			return;
-		}
-		selected = 0;
-		results.innerHTML = items
-			.map(
-				(item) => `
-				<li>
-					<a href="${item.url}" class="block rounded-lg px-3 py-2.5 no-underline hover:bg-muted">
-						<span class="block text-sm font-semibold text-foreground!">${item.meta.title ?? item.url}</span>
-						<span class="block text-xs text-muted-foreground [&_mark]:bg-transparent [&_mark]:text-(--blog-accent) [&_mark]:font-semibold">${item.excerpt}</span>
-					</a>
-				</li>`,
-			)
-			.join('');
-		paintSelection();
-	}
-
-	input.addEventListener('input', () => {
-		clearTimeout(debounceTimer);
-		debounceTimer = setTimeout(runSearch, 120);
-	});
-
-	input.addEventListener('keydown', (event) => {
-		const count = results.children.length;
-		if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-			event.preventDefault();
-			if (!count) return;
-			selected = (selected + (event.key === 'ArrowDown' ? 1 : count - 1)) % count;
-			paintSelection();
-			results.children[selected]?.scrollIntoView({ block: 'nearest' });
-		} else if (event.key === 'Enter') {
-			const link = results.children[selected]?.querySelector('a');
-			if (link) window.location.href = link.href;
-		}
-	});
+	init();
+	document.addEventListener('astro:page-load', init);
 </script>
