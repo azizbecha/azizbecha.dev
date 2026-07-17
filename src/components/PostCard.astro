@@ -1,12 +1,15 @@
 ---
 import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getEntries } from 'astro:content';
 import { readingTime } from '../lib/posts';
+import Byline from './Byline.astro';
 import FormattedDate from './FormattedDate.astro';
+import TagChip from './TagChip.astro';
 
 type Props = { post: CollectionEntry<'blog'> };
 
 const { post } = Astro.props;
+const authors = await getEntries(post.data.authors);
 ---
 
 <a
@@ -28,9 +31,22 @@ const { post } = Astro.props;
 		<h3 class="text-lg! leading-snug! font-semibold text-foreground m-0! transition-colors group-hover:text-(--blog-accent)">
 			{post.data.title}
 		</h3>
-		<p class="text-xs text-muted-foreground mt-1 mb-2!">
-			<FormattedDate date={post.data.pubDate} /> &middot; {readingTime(post.body)} min read
+		<p class="flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground mt-1.5 mb-2!">
+			<Byline authors={authors} compact />
+			<span>&middot;</span>
+			<FormattedDate date={post.data.pubDate} />
+			<span>&middot;</span>
+			<span>{readingTime(post.body)} min read</span>
 		</p>
 		<p class="text-sm text-muted-foreground m-0! line-clamp-2">{post.data.description}</p>
+		{
+			post.data.tags.length > 0 && (
+				<div class="flex flex-wrap gap-1.5 mt-auto pt-3">
+					{post.data.tags.map((tag) => (
+						<TagChip tag={tag} />
+					))}
+				</div>
+			)
+		}
 	</div>
 </a>

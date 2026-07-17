@@ -3,10 +3,12 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import PostCard from '../../components/PostCard.astro';
+import TagChip from '../../components/TagChip.astro';
 import { SITE_TITLE } from '../../consts';
-import { getPosts } from '../../lib/posts';
+import { getAllTags, getPosts } from '../../lib/posts';
 
 const posts = await getPosts();
+const tags = await getAllTags();
 ---
 
 <!doctype html>
@@ -23,6 +25,17 @@ const posts = await getPosts();
 					{posts.length} post{posts.length === 1 ? '' : 's'} so far. Mostly code, occasionally not.
 				</p>
 			</section>
+
+			{
+				tags.size > 0 && (
+					<div class="flex flex-wrap gap-1.5 mb-8">
+						<TagChip tag="all" link active />
+						{[...tags.entries()].map(([tag, count]) => (
+							<TagChip tag={tag} count={count} link />
+						))}
+					</div>
+				)
+			}
 
 			<ul class="grid gap-6 sm:grid-cols-2 list-none m-0 p-0">
 				{

@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+type Props = {
+	authors: CollectionEntry<'authors'>[];
+	/** Compact mode: smaller avatars, plain-text names (no links) — safe inside card links. */
+	compact?: boolean;
+};
+
+const { authors, compact = false } = Astro.props;
+const avatarSize = compact ? 'size-5' : 'size-7';
+const separator = (index: number) => (index === 0 ? '' : index === authors.length - 1 ? ' & ' : ', ');
+---
+
+<span class="inline-flex items-center gap-2">
+	<span class="flex -space-x-1.5">
+		{
+			authors.map((author) =>
+				author.data.avatar ? (
+					<img
+						class:list={[avatarSize, 'rounded-full! m-0! ring-2 ring-background object-cover']}
+						src={author.data.avatar}
+						alt=""
+						width="56"
+						height="56"
+						loading="lazy"
+					/>
+				) : (
+					<span
+						class:list={[
+							avatarSize,
+							'rounded-full ring-2 ring-background bg-muted text-muted-foreground',
+							'inline-flex items-center justify-center font-semibold uppercase',
+							compact ? 'text-[0.6rem]' : 'text-xs',
+						]}
+					>
+						{author.data.name
+							.split(' ')
+							.map((part) => part[0])
+							.slice(0, 2)
+							.join('')}
+					</span>
+				),
+			)
+		}
+	</span>
+	<span>
+		{
+			authors.map((author, index) => (
+				<>
+					{separator(index)}
+					{!compact && author.data.url ? (
+						<a class="text-inherit! no-underline hover:underline" href={author.data.url}>
+							{author.data.name}
+						</a>
+					) : (
+						author.data.name
+					)}
+				</>
+			))
+		}
+	</span>
+</span>

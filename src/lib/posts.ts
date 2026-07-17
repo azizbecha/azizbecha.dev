@@ -18,3 +18,18 @@ export async function getPosts(limit?: number) {
 	);
 	return limit ? posts.slice(0, limit) : posts;
 }
+
+/** All tags with post counts, sorted by count desc then name. */
+export async function getAllTags(): Promise<Map<string, number>> {
+	const posts = await getPosts();
+	const tags = new Map<string, number>();
+	for (const post of posts) {
+		for (const tag of post.data.tags) tags.set(tag, (tags.get(tag) ?? 0) + 1);
+	}
+	return new Map([...tags.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
+}
+
+/** Posts carrying the given tag, newest first. */
+export async function getPostsByTag(tag: string) {
+	return (await getPosts()).filter((post) => post.data.tags.includes(tag));
+}

@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { type CollectionEntry, getCollection, getEntries, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { readingTime } from '../../lib/posts';
 
@@ -14,8 +14,9 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
+const authors = await getEntries(post.data.authors);
 ---
 
-<BlogPost {...post.data} minutes={readingTime(post.body)}>
+<BlogPost {...post.data} minutes={readingTime(post.body)} authors={authors}>
 	<Content />
 </BlogPost>

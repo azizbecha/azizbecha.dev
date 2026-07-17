@@ -1,0 +1,30 @@
+---
+type Props = {
+	tag: string;
+	count?: number;
+	/** Render as a link to the tag page. Omit inside other links (cards) — nested anchors are invalid. */
+	link?: boolean;
+	active?: boolean;
+};
+
+const { tag, count, link = false, active = false } = Astro.props;
+const href = tag === 'all' ? '/blog' : `/blog/tags/${tag}`;
+const base = 'inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs transition-colors';
+const state = active
+	? 'border-(--blog-accent)/60 text-(--blog-accent)!'
+	: 'border-border text-muted-foreground!';
+---
+
+{
+	link ? (
+		<a class:list={[base, state, 'no-underline hover:border-(--blog-accent)/60 hover:text-(--blog-accent)!']} href={href}>
+			{tag}
+			{count !== undefined && <span class="opacity-60">{count}</span>}
+		</a>
+	) : (
+		<span class:list={[base, state]}>
+			{tag}
+			{count !== undefined && <span class="opacity-60">{count}</span>}
+		</span>
+	)
+}
