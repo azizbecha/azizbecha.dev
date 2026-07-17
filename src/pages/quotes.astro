@@ -1,0 +1,82 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+import QUOTES from '../data/quotes.json';
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<BaseHead title={`Quotes · ${SITE_TITLE}`} description="Quotes I keep coming back to." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="mt-8 mb-10 max-sm:mt-4">
+				<h1 class="text-4xl! mb-2 max-sm:text-3xl!">Quotes</h1>
+				<p class="text-muted-foreground mb-0!">Lines I keep coming back to.</p>
+			</section>
+
+			<ul class="list-none m-0 p-0 flex flex-col gap-10 max-w-180">
+				{
+					QUOTES.map((quote) => (
+						<li class="m-0">
+							<figure
+								class="quote-copy group m-0 border-l-2 border-(--blog-accent) pl-5 pr-4 py-3 rounded-r-lg cursor-pointer transition-colors hover:bg-muted/30 focus-visible:bg-muted/30 outline-none"
+								data-quote={`“${quote.text}” — ${quote.author}`}
+								role="button"
+								tabindex="0"
+								aria-label={`Copy quote by ${quote.author}`}
+								title="Click to copy"
+							>
+								<blockquote class="m-0! p-0! border-0! text-lg! leading-relaxed text-foreground pointer-events-none">
+									&ldquo;{quote.text}&rdquo;
+								</blockquote>
+								<figcaption class="mt-2 flex items-center gap-2 text-sm text-muted-foreground pointer-events-none">
+									<span>&mdash; {quote.author}</span>
+									<span class="inline-flex items-center opacity-0 transition-opacity group-hover:opacity-100">
+										<Icon name="lucide:copy" class="copy-icon size-3.5" aria-hidden="true" />
+										<Icon name="lucide:check" class="check-icon size-3.5 hidden text-(--blog-accent)" aria-hidden="true" />
+									</span>
+								</figcaption>
+							</figure>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+		<Footer />
+
+		<script>
+			// Delegated: survives view-transition swaps without re-binding.
+			async function copyQuote(card: HTMLElement) {
+				if (!card.dataset.quote) return;
+				await navigator.clipboard.writeText(card.dataset.quote);
+				const copy = card.querySelector('.copy-icon');
+				const check = card.querySelector('.check-icon');
+				copy?.classList.add('hidden');
+				check?.classList.remove('hidden');
+				setTimeout(() => {
+					copy?.classList.remove('hidden');
+					check?.classList.add('hidden');
+				}, 1500);
+			}
+
+			document.addEventListener('click', (event) => {
+				const card = (event.target as Element).closest('.quote-copy') as HTMLElement | null;
+				if (card) copyQuote(card);
+			});
+
+			document.addEventListener('keydown', (event) => {
+				const target = event.target as HTMLElement;
+				if ((event.key === 'Enter' || event.key === ' ') && target.classList?.contains('quote-copy')) {
+					event.preventDefault();
+					copyQuote(target);
+				}
+			});
+		</script>
+	</body>
+</html>
