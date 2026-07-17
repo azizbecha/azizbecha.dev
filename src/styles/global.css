@@ -126,6 +126,19 @@ p {
 .prose p {
 	margin-bottom: 2em;
 }
+/* Match the paragraph rhythm — EC blocks ship with no margin, and headings
+   have no top margin, so a heading right after a block sits flush against it. */
+.prose .expressive-code {
+	margin-bottom: 2em;
+}
+/* Drop the terminal titlebar chrome; render shell blocks like plain code frames. */
+.prose .expressive-code .frame.is-terminal .header {
+	display: none;
+}
+.prose .expressive-code .frame.is-terminal pre {
+	border-radius: 0.5rem;
+	border-top: 1px solid var(--border);
+}
 .prose .heading-anchor {
 	margin-left: 0.4em;
 	color: var(--blog-accent);

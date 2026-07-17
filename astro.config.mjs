@@ -6,6 +6,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, fontProviders } from 'astro/config';
+import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
 import pagefind from 'astro-pagefind';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -13,7 +14,25 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://azizbecha.dev',
-	integrations: [mdx(), sitemap(), react(), pagefind(), icon()],
+	// expressiveCode must come before mdx so it processes code fences first.
+	integrations: [
+		expressiveCode({
+			themes: ['tokyo-night'],
+			styleOverrides: {
+				borderRadius: '0.5rem',
+				borderColor: 'var(--border)',
+				codeFontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+				frames: {
+					shadowColor: 'transparent',
+				},
+			},
+		}),
+		mdx(),
+		sitemap(),
+		react(),
+		pagefind(),
+		icon(),
+	],
 	markdown: {
 		rehypePlugins: [
 			// Astro's own heading-id pass normally runs after user plugins;
