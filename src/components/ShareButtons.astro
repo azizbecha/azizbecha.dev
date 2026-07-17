@@ -1,0 +1,55 @@
+---
+import { Icon } from 'astro-icon/components';
+
+type Props = { title: string };
+const { title } = Astro.props;
+const buttonClass =
+	'inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground hover:border-(--blog-accent)/60 cursor-pointer';
+---
+
+<div class="flex items-center gap-2">
+	<button id="copy-link-button" type="button" class={buttonClass}>
+		<Icon name="lucide:link-2" class="size-3.5" aria-hidden="true" />
+		<span data-label>Copy link</span>
+	</button>
+	<button id="native-share-button" type="button" class={buttonClass} data-title={title} hidden>
+		<Icon name="lucide:share" class="size-3.5" aria-hidden="true" />
+		Share
+	</button>
+</div>
+
+<script>
+	// Delegated + idempotent: survives ClientRouter page swaps without re-binding.
+	document.addEventListener('click', async (event) => {
+		const copyButton = (event.target as Element).closest('#copy-link-button');
+		if (copyButton) {
+			await navigator.clipboard.writeText(window.location.href);
+			const label = copyButton.querySelector('[data-label]');
+			if (label && label.textContent !== 'Copied!') {
+				const original = label.textContent;
+				label.textContent = 'Copied!';
+				setTimeout(() => {
+					label.textContent = original;
+				}, 2000);
+			}
+			return;
+		}
+
+		const shareButton = (event.target as Element).closest('#native-share-button') as HTMLButtonElement | null;
+		if (shareButton) {
+			try {
+				await navigator.share({ title: shareButton.dataset.title, url: window.location.href });
+			} catch {
+				/* user dismissed the sheet */
+			}
+		}
+	});
+
+	function revealNativeShare() {
+		if (!navigator.share) return;
+		const button = document.getElementById('native-share-button');
+		if (button) button.hidden = false;
+	}
+	revealNativeShare();
+	document.addEventListener('astro:page-load', revealNativeShare);
+</script>

@@ -6,13 +6,14 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, fontProviders } from 'astro/config';
+import icon from 'astro-icon';
 import pagefind from 'astro-pagefind';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://azizbecha.dev',
-	integrations: [mdx(), sitemap(), react(), pagefind()],
+	integrations: [mdx(), sitemap(), react(), pagefind(), icon()],
 	markdown: {
 		rehypePlugins: [
 			// Astro's own heading-id pass normally runs after user plugins;
