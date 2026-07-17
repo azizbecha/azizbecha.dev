@@ -1,5 +1,4 @@
 ---
-import { buttonVariants } from '@/components/ui/button';
 import type { HTMLAttributes } from 'astro/types';
 
 type Props = HTMLAttributes<'a'>;
@@ -18,11 +17,11 @@ const isActive =
 
 <a
 	href={href}
-	class={buttonVariants({
-		variant: isActive ? 'secondary' : 'ghost',
-		size: 'sm',
+	class:list={[
+		'text-sm no-underline transition-colors hover:text-foreground!',
+		isActive ? 'text-foreground! font-medium' : 'text-muted-foreground!',
 		className,
-	})}
+	]}
 	aria-current={isActive ? 'page' : undefined}
 	{...props}
 >
