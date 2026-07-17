@@ -1,0 +1,65 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { buttonVariants } from '@/components/ui/button';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<BaseHead title={`404 · ${SITE_TITLE}`} description="Page not found." />
+	</head>
+	<body>
+		<Header />
+		<main class="flex flex-col items-center py-16!">
+			<p class="font-mono text-8xl font-bold text-(--blog-accent) m-0! leading-none">404</p>
+			<p class="text-muted-foreground mt-3 mb-10!">Page not found. It may have never existed. Spooky.</p>
+
+			<div class="w-full max-w-xl rounded-lg border border-border overflow-hidden font-mono text-sm">
+				<div class="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-muted/40">
+					<span class="size-3 rounded-full bg-red-500/80"></span>
+					<span class="size-3 rounded-full bg-yellow-500/80"></span>
+					<span class="size-3 rounded-full bg-green-500/80"></span>
+					<span class="ml-2 text-xs text-muted-foreground">aziz@web: ~</span>
+				</div>
+				<div class="p-4 text-left leading-relaxed">
+					<p class="m-0!">
+						<span class="text-(--blog-accent)">aziz@web</span><span class="text-muted-foreground">:~$</span>
+						<span class="text-foreground ml-[1ch]">cd <span id="requested-path">/wherever-you-were-going</span></span>
+					</p>
+					<p class="m-0! text-destructive">cd: no such file or directory</p>
+					<p class="m-0! mt-3!">
+						<span class="text-(--blog-accent)">aziz@web</span><span class="text-muted-foreground">:~$</span>
+						<span class="text-foreground ml-[1ch]">ls ~</span>
+					</p>
+					<p class="m-0! flex gap-6">
+						<a class="text-(--blog-accent) font-bold no-underline hover:underline" href="/">home/</a>
+						<a class="text-(--blog-accent) font-bold no-underline hover:underline" href="/blog">blog/</a>
+						<a class="text-(--blog-accent) font-bold no-underline hover:underline" href="/about">about/</a>
+					</p>
+					<p class="m-0! mt-3! flex items-center gap-1">
+						<span class="text-(--blog-accent)">aziz@web</span><span class="text-muted-foreground">:~$</span>
+						<span
+							class="inline-block w-[0.6ch] h-[1.1em] bg-(--blog-accent) animate-caret-blink motion-reduce:animate-none"
+							aria-hidden="true"></span>
+					</p>
+				</div>
+			</div>
+
+			<a
+				class:list={[buttonVariants({ variant: 'secondary' }), 'mt-8 no-underline text-secondary-foreground!']}
+				href="/"
+			>
+				Back to home
+			</a>
+		</main>
+		<Footer />
+
+		<script>
+			const el = document.getElementById('requested-path');
+			if (el) el.textContent = window.location.pathname;
+		</script>
+	</body>
+</html>
