@@ -1,12 +1,12 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import PostCard from '../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getPosts } from '../lib/posts';
 
-const posts = await getPosts(4);
+const posts = await getPosts(6);
 ---
 
 <!doctype html>
@@ -31,21 +31,11 @@ const posts = await getPosts(4);
 					<h2 class="text-2xl! m-0!">Recent writing</h2>
 					<a class="text-sm no-underline whitespace-nowrap" href="/blog">All posts &rarr;</a>
 				</div>
-				<ul class="list-none m-0 p-0">
+				<ul class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 list-none m-0 p-0">
 					{
 						posts.map((post) => (
-							<li class="border-t border-border first:border-t-0">
-								<a class="group block py-4 no-underline" href={`/blog/${post.id}/`}>
-									<div class="flex items-baseline justify-between gap-4 max-sm:flex-col max-sm:gap-0.5">
-										<span class="font-semibold text-foreground transition-colors group-hover:text-(--blog-accent)">
-											{post.data.title}
-										</span>
-										<span class="text-sm text-muted-foreground whitespace-nowrap">
-											<FormattedDate date={post.data.pubDate} />
-										</span>
-									</div>
-									<p class="text-sm text-muted-foreground mt-1 mb-0!">{post.data.description}</p>
-								</a>
+							<li class="m-0">
+								<PostCard post={post} />
 							</li>
 						))
 					}

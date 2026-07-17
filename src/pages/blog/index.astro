@@ -1,18 +1,12 @@
 ---
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
+import PostCard from '../../components/PostCard.astro';
 import { SITE_TITLE } from '../../consts';
 import { getPosts } from '../../lib/posts';
 
 const posts = await getPosts();
-
-const postsByYear = posts.reduce((years, post) => {
-	const year = post.data.pubDate.getFullYear();
-	(years.get(year) ?? years.set(year, []).get(year)).push(post);
-	return years;
-}, new Map());
 ---
 
 <!doctype html>
@@ -23,39 +17,22 @@ const postsByYear = posts.reduce((years, post) => {
 	<body>
 		<Header />
 		<main>
-			<section class="mt-8 mb-10">
-				<h1 class="text-4xl! mb-2">Blog</h1>
+			<section class="mt-8 mb-10 max-sm:mt-4">
+				<h1 class="text-4xl! mb-2 max-sm:text-3xl!">Blog</h1>
 				<p class="text-muted-foreground mb-0!">
 					{posts.length} post{posts.length === 1 ? '' : 's'} so far. Mostly code, occasionally not.
 				</p>
 			</section>
 
-			{
-				[...postsByYear.entries()].map(([year, yearPosts]) => (
-					<section class="mb-8">
-						<h2 class="text-base! font-medium text-muted-foreground! border-b border-border pb-2 mb-1">
-							{year}
-						</h2>
-						<ul class="list-none m-0 p-0">
-							{yearPosts.map((post) => (
-								<li class="border-t border-border first:border-t-0">
-									<a class="group block py-4 no-underline" href={`/blog/${post.id}/`}>
-										<div class="flex items-baseline justify-between gap-4 max-sm:flex-col max-sm:gap-0.5">
-											<span class="font-semibold text-foreground transition-colors group-hover:text-(--blog-accent)">
-												{post.data.title}
-											</span>
-											<span class="text-sm text-muted-foreground whitespace-nowrap">
-												<FormattedDate date={post.data.pubDate} />
-											</span>
-										</div>
-										<p class="text-sm text-muted-foreground mt-1 mb-0!">{post.data.description}</p>
-									</a>
-								</li>
-							))}
-						</ul>
-					</section>
-				))
-			}
+			<ul class="grid gap-6 sm:grid-cols-2 list-none m-0 p-0">
+				{
+					posts.map((post) => (
+						<li class="m-0">
+							<PostCard post={post} />
+						</li>
+					))
+				}
+			</ul>
 		</main>
 		<Footer />
 	</body>

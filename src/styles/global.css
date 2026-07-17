@@ -73,10 +73,10 @@ body {
 	line-height: 1.7;
 }
 main {
-	width: 720px;
-	max-width: calc(100% - 2em);
+	width: var(--container-5xl);
+	max-width: 100%;
 	margin: auto;
-	padding: 3em 1em;
+	padding: 3rem 1rem;
 }
 h1,
 h2,
