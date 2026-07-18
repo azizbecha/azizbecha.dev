@@ -1,40 +1,48 @@
 ---
-import { FOOTER_LINKS } from '../consts';
+import { Icon } from 'astro-icon/components';
+import { SOCIAL_LINKS } from '../consts';
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-border text-muted-foreground">
-	<div class="w-full max-w-5xl mx-auto px-4 py-8 font-mono text-xs">
-		<p class="flex items-center gap-1 m-0!">
-			<span class="text-(--blog-accent)">aziz@web</span><span>:</span><span class="text-foreground/85">~</span><span>$</span>
-			<span class="text-foreground">ls ./links</span>
-		</p>
-		<p class="flex flex-wrap gap-x-3 gap-y-1.5 mt-1.5 mb-4!">
-			{
-				FOOTER_LINKS.map((link) => (
-					<a
-						href={link.href}
-						class:list={[
-							'no-underline hover:underline',
-							link.dir ? 'text-(--blog-accent) font-bold' : 'text-foreground/85',
-						]}
-						target={link.external ? '_blank' : undefined}
-						rel={link.external ? 'noopener noreferrer' : undefined}
-					>
-						{link.label}
-					</a>
-				))
-			}
-		</p>
-		<div class="flex items-center justify-between gap-6 max-sm:flex-col max-sm:items-start max-sm:gap-3">
-			<p class="flex items-center gap-1 m-0!">
-				<span class="text-(--blog-accent)">aziz@web</span><span>:</span><span class="text-foreground/85">~</span><span>$</span>
-				<span class="text-foreground">exit 0</span><span
-					class="inline-block w-[0.6ch] h-[1.1em] bg-(--blog-accent) animate-caret-blink motion-reduce:animate-none"
-					aria-hidden="true"></span>
+	<div class="w-full max-w-5xl mx-auto px-4 py-10">
+		<div class="flex items-start justify-between gap-8 max-sm:flex-col">
+			<div>
+				<p class="m-0! font-semibold text-foreground">Aziz Becha</p>
+				<p class="m-0! mt-2 text-sm max-w-xs">
+					My free space on the internet — thoughts, code, tips.
+				</p>
+			</div>
+			<ul class="list-none m-0 p-0 flex items-center gap-1">
+				{
+					SOCIAL_LINKS.map((link) => (
+						<li class="m-0">
+							<a
+								class="inline-flex items-center justify-center size-9 rounded-md text-muted-foreground! no-underline transition-colors hover:text-foreground! hover:bg-muted"
+								href={link.href}
+								aria-label={link.label}
+								title={link.label}
+								target={link.href.startsWith('http') ? '_blank' : undefined}
+								rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+							>
+								<Icon name={link.icon} class="size-4" aria-hidden="true" />
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+		<div class="mt-8 pt-6 border-t border-border flex items-center justify-between gap-4 max-sm:flex-col max-sm:items-start">
+			<p class="m-0! text-sm">&copy; {year} Aziz Becha &middot; no rights reserved</p>
+			<p class="m-0! text-sm inline-flex items-center gap-2">
+				<span class="relative flex size-2" aria-hidden="true">
+					<span class="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-60 motion-reduce:animate-none"
+					></span>
+					<span class="relative inline-flex size-2 rounded-full bg-green-500"></span>
+				</span>
+				status: alive
 			</p>
-			<span class="text-muted-foreground/75 whitespace-nowrap">&copy; {year} &middot; no rights reserved</span>
 		</div>
 	</div>
 </footer>

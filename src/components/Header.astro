@@ -1,16 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { NAV_LINKS as navLinks } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 import SearchDialog from './SearchDialog.astro';
-
-const navLinks = [
-	{ href: '/', label: 'Home' },
-	{ href: '/blog/', label: 'Blog' },
-	{ href: '/quotes/', label: 'Quotes' },
-	{ href: '/podcasts/', label: 'Podcasts' },
-	{ href: '/about/', label: 'About' },
-	{ href: '/contact/', label: 'Contact' },
-];
 ---
 
 <header class="border-b border-border">
