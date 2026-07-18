@@ -1,0 +1,102 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, SITE_TITLE, X_URL } from '../consts';
+
+const handle = (url: string) => url.split('/').filter(Boolean).at(-1);
+
+const channels = [
+	{
+		label: 'Email',
+		value: EMAIL,
+		href: `mailto:${EMAIL}`,
+		icon: 'lucide:mail',
+		note: 'Best for anything longer than a tweet.',
+	},
+	{
+		label: 'GitHub',
+		value: `@${handle(GITHUB_URL)}`,
+		href: GITHUB_URL,
+		icon: 'lucide:github',
+		note: 'Code, issues, and pull requests.',
+	},
+	{
+		label: 'X',
+		value: `@${handle(X_URL)}`,
+		href: X_URL,
+		icon: 'lucide:twitter',
+		note: 'DMs open — fastest way to reach me.',
+	},
+	{
+		label: 'LinkedIn',
+		value: `in/${handle(LINKEDIN_URL)}`,
+		href: LINKEDIN_URL,
+		icon: 'lucide:linkedin',
+		note: 'Work things.',
+	},
+];
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<BaseHead title={`Contact · ${SITE_TITLE}`} description="How to reach me." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="mt-8 mb-10 max-sm:mt-4">
+				<h1 class="text-4xl! mb-2 max-sm:text-3xl!">Contact</h1>
+				<p class="text-muted-foreground mb-0! max-w-xl">
+					No forms, no funnels — just pick a channel. I read everything, I reply to most of it.
+				</p>
+			</section>
+
+			<ul class="grid gap-4 sm:grid-cols-2 list-none m-0 p-0 max-w-3xl">
+				{
+					channels.map((channel) => (
+						<li class="m-0">
+							<a
+								class="group flex items-start gap-3 h-full rounded-lg border border-border p-4 no-underline transition-colors hover:border-(--blog-accent)/60"
+								href={channel.href}
+								target={channel.href.startsWith('mailto:') ? undefined : '_blank'}
+								rel={channel.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+							>
+								<Icon
+									name={channel.icon}
+									class="size-5 shrink-0 mt-0.5 text-muted-foreground transition-colors group-hover:text-(--blog-accent)"
+									aria-hidden="true"
+								/>
+								<span class="flex flex-col">
+									<span class="font-semibold text-foreground transition-colors group-hover:text-(--blog-accent)">
+										{channel.label}
+									</span>
+									<span class="text-sm text-muted-foreground font-mono">{channel.value}</span>
+									<span class="mt-1 text-sm text-muted-foreground">{channel.note}</span>
+								</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+
+			<p class="mt-8 text-sm text-muted-foreground max-w-3xl">
+				<span class="text-foreground font-medium">I don't do meetings by default.</span> Most things
+				are easier when written down: more context, fewer interruptions, better decisions. Send me the
+				details and I'll reply when I have something useful to add.
+			</p>
+			<p class="mt-3 text-sm text-muted-foreground max-w-3xl">
+				Please be direct — <a href="https://dontasktoask.com" target="_blank" rel="noopener noreferrer"
+					>don't ask to ask</a
+				>.
+			</p>
+			<p class="mt-3 text-sm text-muted-foreground max-w-3xl">
+				If you're here looking for help, I'd genuinely love to — don't be shy. Send a clear message,
+				skip the introductions, and I'll reply as soon as I can.
+			</p>
+		</main>
+		<Footer />
+	</body>
+</html>
