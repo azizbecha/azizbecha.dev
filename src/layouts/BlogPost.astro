@@ -179,3 +179,15 @@ const jsonLd = JSON.stringify({
 		<Footer />
 	</body>
 </html>
+
+<script is:inline define:vars={{ postTitle: title, postTags: tags ?? [], postMinutes: minutes ?? null }}>
+	function capturePostViewed() {
+		window.posthog?.capture('blog_post_viewed', {
+			post_title: postTitle,
+			post_tags: postTags,
+			reading_time_minutes: postMinutes
+		});
+	}
+	document.addEventListener('DOMContentLoaded', capturePostViewed);
+	document.addEventListener('astro:page-load', capturePostViewed);
+</script>

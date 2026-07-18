@@ -74,6 +74,7 @@ import { Icon } from 'astro-icon/components';
 			dialog!.showModal();
 			input!.select();
 			loadPagefind();
+			(window as any).posthog?.capture('search_opened');
 		}
 
 		// Close when clicking the backdrop (clicks outside the dialog's children target the dialog itself).
@@ -101,11 +102,12 @@ import { Icon } from 'astro-icon/components';
 				return;
 			}
 			selected = 0;
+			(window as any).posthog?.capture('search_completed', { query, result_count: items.length });
 			results!.innerHTML = items
 				.map(
 					(item) => `
 					<li>
-						<a href="${item.url}" class="block rounded-lg px-3 py-2.5 no-underline hover:bg-muted">
+						<a href="${item.url}" class="block rounded-lg px-3 py-2.5 no-underline hover:bg-muted" data-search-query="${query.replace(/"/g, '&quot;')}" data-search-title="${(item.meta.title ?? item.url).replace(/"/g, '&quot;')}">
 							<span class="block text-sm font-semibold text-foreground!">${item.meta.title ?? item.url}</span>
 							<span class="block text-xs text-muted-foreground [&_mark]:bg-transparent [&_mark]:text-(--blog-accent) [&_mark]:font-semibold">${item.excerpt}</span>
 						</a>
@@ -129,8 +131,24 @@ import { Icon } from 'astro-icon/components';
 				paintSelection();
 				results!.children[selected]?.scrollIntoView({ block: 'nearest' });
 			} else if (event.key === 'Enter') {
-				const link = results!.children[selected]?.querySelector('a');
-				if (link) window.location.href = link.href;
+				const link = results!.children[selected]?.querySelector('a') as HTMLAnchorElement | null;
+				if (link) {
+					(window as any).posthog?.capture('search_result_clicked', {
+						query: link.dataset.searchQuery,
+						result_title: link.dataset.searchTitle
+					});
+					window.location.href = link.href;
+				}
+			}
+		});
+
+		results!.addEventListener('click', (event) => {
+			const link = (event.target as Element).closest('a[data-search-query]') as HTMLAnchorElement | null;
+			if (link) {
+				(window as any).posthog?.capture('search_result_clicked', {
+					query: link.dataset.searchQuery,
+					result_title: link.dataset.searchTitle
+				});
 			}
 		});
 	}

@@ -24,6 +24,7 @@ const buttonClass =
 		const copyButton = (event.target as Element).closest('#copy-link-button');
 		if (copyButton) {
 			await navigator.clipboard.writeText(window.location.href);
+			(window as any).posthog?.capture('post_link_copied', { url: window.location.href });
 			const label = copyButton.querySelector('[data-label]');
 			if (label && label.textContent !== 'Copied!') {
 				const original = label.textContent;
@@ -39,6 +40,7 @@ const buttonClass =
 		if (shareButton) {
 			try {
 				await navigator.share({ title: shareButton.dataset.title, url: window.location.href });
+				(window as any).posthog?.capture('post_shared', { url: window.location.href });
 			} catch {
 				/* user dismissed the sheet */
 			}

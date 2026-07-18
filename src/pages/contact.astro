@@ -63,6 +63,7 @@ const channels = [
 								href={channel.href}
 								target={channel.href.startsWith('mailto:') ? undefined : '_blank'}
 								rel={channel.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+								data-channel-label={channel.label}
 							>
 								<Icon
 									name={channel.icon}
@@ -100,3 +101,13 @@ const channels = [
 		<Footer />
 	</body>
 </html>
+
+<script is:inline>
+	document.addEventListener('click', function(event) {
+		var link = event.target.closest('a[data-channel-label]');
+		if (!link) return;
+		window.posthog?.capture('contact_channel_clicked', {
+			channel: link.dataset.channelLabel
+		});
+	});
+</script>
