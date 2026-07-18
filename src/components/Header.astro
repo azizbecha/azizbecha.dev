@@ -1,18 +1,55 @@
 ---
+import { Icon } from 'astro-icon/components';
 import HeaderLink from './HeaderLink.astro';
 import SearchDialog from './SearchDialog.astro';
+
+const navLinks = [
+	{ href: '/', label: 'Home' },
+	{ href: '/blog/', label: 'Blog' },
+	{ href: '/quotes/', label: 'Quotes' },
+	{ href: '/podcasts/', label: 'Podcasts' },
+	{ href: '/about/', label: 'About' },
+];
 ---
 
 <header class="border-b border-border">
-	<nav class="flex items-center justify-between min-h-16 w-full max-w-5xl mx-auto px-4">
-		<a class="text-foreground! font-semibold no-underline" href="/">Aziz Becha</a>
-		<div class="flex items-center gap-6">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog/">Blog</HeaderLink>
-			<HeaderLink href="/quotes/">Quotes</HeaderLink>
-			<HeaderLink href="/podcasts/">Podcasts</HeaderLink>
-			<HeaderLink href="/about/">About</HeaderLink>
+	<nav class="flex items-center justify-between gap-3 min-h-16 w-full max-w-5xl mx-auto px-4">
+		<a class="text-foreground! font-semibold no-underline whitespace-nowrap" href="/">Aziz Becha</a>
+		<div class="flex items-center gap-3">
+			<div class="hidden md:flex items-center gap-6">
+				{navLinks.map((link) => <HeaderLink href={link.href}>{link.label}</HeaderLink>)}
+			</div>
 			<SearchDialog />
+			<button
+				id="menu-toggle"
+				type="button"
+				class="md:hidden inline-flex items-center justify-center size-9 rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+				aria-label="Menu"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+			>
+				<Icon name="lucide:menu" class="icon-menu size-4" aria-hidden="true" />
+				<Icon name="lucide:x" class="icon-x size-4 hidden" aria-hidden="true" />
+			</button>
 		</div>
 	</nav>
+	<div id="mobile-menu" class="hidden md:hidden border-t border-border">
+		<div class="flex flex-col gap-1 w-full max-w-5xl mx-auto px-4 py-3">
+			{navLinks.map((link) => <HeaderLink class="block py-2" href={link.href}>{link.label}</HeaderLink>)}
+		</div>
+	</div>
 </header>
+
+<script>
+	// Delegated + idempotent: survives view-transition swaps.
+	document.addEventListener('click', (event) => {
+		const toggle = (event.target as Element).closest('#menu-toggle');
+		if (!toggle) return;
+		const menu = document.getElementById('mobile-menu');
+		if (!menu) return;
+		const open = !menu.classList.toggle('hidden');
+		toggle.setAttribute('aria-expanded', String(open));
+		toggle.querySelector('.icon-menu')?.classList.toggle('hidden', open);
+		toggle.querySelector('.icon-x')?.classList.toggle('hidden', !open);
+	});
+</script>
