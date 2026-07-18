@@ -6,9 +6,13 @@ import Byline from './Byline.astro';
 import FormattedDate from './FormattedDate.astro';
 import TagChip from './TagChip.astro';
 
-type Props = { post: CollectionEntry<'blog'> };
+type Props = {
+	post: CollectionEntry<'blog'>;
+	/** Set on above-the-fold cards so their hero images skip lazy loading. */
+	eager?: boolean;
+};
 
-const { post } = Astro.props;
+const { post, eager = false } = Astro.props;
 const authors = await getEntries(post.data.authors);
 ---
 
@@ -19,18 +23,19 @@ const authors = await getEntries(post.data.authors);
 	{
 		post.data.heroImage && (
 			<Image
-				class="w-full aspect-2/1 object-cover rounded-none! m-0!"
+				class="w-full rounded-none! m-0!"
 				width={720}
 				height={360}
 				src={post.data.heroImage}
-				alt=""
+				alt={post.data.title}
+				loading={eager ? 'eager' : 'lazy'}
 			/>
 		)
 	}
 	<div class="flex flex-col flex-1 p-4">
-		<h3 class="text-lg! leading-snug! font-semibold text-foreground m-0! transition-colors group-hover:text-(--blog-accent)">
+		<h2 class="text-lg! leading-snug! font-semibold text-foreground m-0! transition-colors group-hover:text-(--blog-accent)">
 			{post.data.title}
-		</h3>
+		</h2>
 		<p class="flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground mt-1.5 mb-2!">
 			<Byline authors={authors} compact />
 			<span>&middot;</span>

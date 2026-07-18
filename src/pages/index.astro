@@ -29,13 +29,13 @@ const posts = await getPosts(6);
 			<section>
 				<div class="flex items-baseline justify-between gap-4 mb-4">
 					<h2 class="text-2xl! m-0!">Recent writing</h2>
-					<a class="text-sm no-underline whitespace-nowrap" href="/blog">All posts &rarr;</a>
+					<a class="text-sm no-underline whitespace-nowrap" href="/blog/">All posts &rarr;</a>
 				</div>
 				<ul class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 list-none m-0 p-0">
 					{
-						posts.map((post) => (
+						posts.map((post, index) => (
 							<li class="m-0">
-								<PostCard post={post} />
+								<PostCard post={post} eager={index < 3} />
 							</li>
 						))
 					}

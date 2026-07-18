@@ -8,7 +8,7 @@ type Props = {
 };
 
 const { tag, count, link = false, active = false } = Astro.props;
-const href = tag === 'all' ? '/blog' : `/blog/tags/${tag}`;
+const href = tag === 'all' ? '/blog/' : `/blog/tags/${tag}/`;
 const base = 'inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs transition-colors';
 const state = active
 	? 'border-(--blog-accent)/60 text-(--blog-accent)!'

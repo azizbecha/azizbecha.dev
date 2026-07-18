@@ -28,7 +28,10 @@ export default defineConfig({
 			},
 		}),
 		mdx(),
-		sitemap(),
+		sitemap({
+			// No news/video/i18n/image entries on this site — keep the XML lean.
+			namespaces: { news: false, xhtml: false, image: false, video: false },
+		}),
 		react(),
 		pagefind(),
 		icon(),
@@ -43,7 +46,14 @@ export default defineConfig({
 				{
 					behavior: 'append',
 					properties: { className: ['heading-anchor'], ariaLabel: 'Link to this section' },
-					content: { type: 'text', value: '#' },
+					// aria-hidden span so the visible "#" doesn't clash with the aria-label
+					// (accessible-name-must-contain-visible-text rule).
+					content: {
+						type: 'element',
+						tagName: 'span',
+						properties: { ariaHidden: 'true' },
+						children: [{ type: 'text', value: '#' }],
+					},
 				},
 			],
 		],

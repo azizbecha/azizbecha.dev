@@ -6,15 +6,18 @@ import { Icon } from 'astro-icon/components';
 	id="search-open"
 	type="button"
 	class="inline-flex items-center gap-2 rounded-md border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground hover:border-(--blog-accent)/60 cursor-pointer"
-	aria-label="Search posts"
+	aria-label="Search"
 >
 	<Icon name="lucide:search" class="size-3.5" aria-hidden="true" />
 	<span class="max-sm:hidden">Search</span>
-	<kbd class="max-sm:hidden rounded border border-border bg-muted px-1.5 py-px font-mono text-[0.65rem]">⌘K</kbd>
+	<kbd class="max-sm:hidden rounded border border-border bg-muted px-1.5 py-px font-mono text-[0.65rem]" aria-hidden="true"
+		>⌘K</kbd
+	>
 </button>
 
 <dialog
 	id="search-dialog"
+	aria-label="Search posts"
 	class="w-full max-w-xl mx-auto mt-[12vh] rounded-xl border border-border bg-popover text-popover-foreground p-0 backdrop:bg-black/60 backdrop:backdrop-blur-xs"
 >
 	<div class="flex items-center gap-2 border-b border-border px-4">
@@ -23,10 +26,13 @@ import { Icon } from 'astro-icon/components';
 			id="search-input"
 			type="text"
 			placeholder="Search posts…"
+			aria-label="Search posts"
 			autocomplete="off"
 			class="w-full bg-transparent py-3.5 text-sm text-foreground placeholder:text-muted-foreground outline-none"
 		/>
-		<kbd class="rounded border border-border bg-muted px-1.5 py-px font-mono text-[0.65rem] text-muted-foreground">esc</kbd>
+		<kbd class="rounded border border-border bg-muted px-1.5 py-px font-mono text-[0.65rem] text-muted-foreground" aria-hidden="true"
+			>esc</kbd
+		>
 	</div>
 	<ul id="search-results" class="max-h-[50vh] overflow-y-auto list-none m-0! p-2 empty:p-0"></ul>
 </dialog>

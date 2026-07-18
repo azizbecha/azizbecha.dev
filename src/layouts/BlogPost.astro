@@ -20,11 +20,29 @@ type Props = Omit<CollectionEntry<'blog'>['data'], 'authors'> & {
 
 const { title, description, pubDate, updatedDate, heroImage, minutes, authors, tags, prevPost, nextPost } =
 	Astro.props;
+
+const jsonLd = JSON.stringify({
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: title,
+	description,
+	datePublished: pubDate.toISOString(),
+	...(updatedDate && { dateModified: updatedDate.toISOString() }),
+	...(heroImage && { image: new URL(heroImage.src, Astro.site).href }),
+	...(tags && tags.length > 0 && { keywords: tags.join(', ') }),
+	author: (authors ?? []).map((author) => ({
+		'@type': 'Person',
+		name: author.data.name,
+		...(author.data.url && { url: author.data.url }),
+	})),
+	mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+});
 ---
 
 <html lang="en" class="dark">
 	<head>
 		<BaseHead title={title} description={description} />
+		<script type="application/ld+json" set:html={jsonLd} />
 	</head>
 
 	<body>
