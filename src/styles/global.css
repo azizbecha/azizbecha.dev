@@ -178,10 +178,13 @@ pre > code {
 	all: unset;
 }
 blockquote {
-	border-left: 4px solid var(--blog-accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
+	border-left: 3px solid var(--blog-accent);
+	padding: 0.25rem 0 0.25rem 1.25rem;
+	margin: 0 0 2em;
+	color: rgb(var(--gray));
+}
+blockquote p:last-child {
+	margin-bottom: 0;
 }
 hr {
 	border: none;
