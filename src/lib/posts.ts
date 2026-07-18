@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content';
+import { type CollectionEntry, getCollection, getEntries } from 'astro:content';
 
 const WORDS_PER_MINUTE = 200;
 
@@ -32,4 +32,27 @@ export async function getAllTags(): Promise<Map<string, number>> {
 /** Posts carrying the given tag, newest first. */
 export async function getPostsByTag(tag: string) {
 	return (await getPosts()).filter((post) => post.data.tags.includes(tag));
+}
+
+/** JSON-safe shape of a post for the public API. */
+export async function serializePost(post: CollectionEntry<'blog'>, site?: URL) {
+	const authors = await getEntries(post.data.authors);
+	return {
+		slug: post.id,
+		title: post.data.title,
+		description: post.data.description,
+		pubDate: post.data.pubDate.toISOString(),
+		...(post.data.updatedDate && { updatedDate: post.data.updatedDate.toISOString() }),
+		tags: post.data.tags,
+		minutes: readingTime(post.body),
+		authors: authors.map((author) => ({
+			id: author.id,
+			name: author.data.name,
+			...(author.data.url && { url: author.data.url }),
+		})),
+		...(post.data.heroImage && {
+			heroImage: site ? new URL(post.data.heroImage.src, site).href : post.data.heroImage.src,
+		}),
+		url: site ? new URL(`/blog/${post.id}/`, site).href : `/blog/${post.id}/`,
+	};
 }
