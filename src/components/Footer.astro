@@ -35,14 +35,34 @@ const year = new Date().getFullYear();
 		</div>
 		<div class="mt-8 pt-6 border-t border-border flex items-center justify-between gap-4 max-sm:flex-col max-sm:items-start">
 			<p class="m-0! text-sm">&copy; {year} Aziz Becha &middot; no rights reserved</p>
-			<p class="m-0! text-sm inline-flex items-center gap-2">
-				<span class="relative flex size-2" aria-hidden="true">
-					<span class="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-60 motion-reduce:animate-none"
-					></span>
-					<span class="relative inline-flex size-2 rounded-full bg-green-500"></span>
-				</span>
-				status: alive
-			</p>
+			<button
+				id="npx-copy"
+				type="button"
+				class="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground hover:border-(--blog-accent)/60 cursor-pointer"
+				title="Copy to clipboard"
+			>
+				<span class="text-(--blog-accent)" aria-hidden="true">$</span>
+				npx azizbecha
+				<Icon name="lucide:copy" class="npx-copy-icon size-3" aria-hidden="true" />
+				<Icon name="lucide:check" class="npx-check-icon size-3 hidden text-(--blog-accent)" aria-hidden="true" />
+			</button>
 		</div>
 	</div>
 </footer>
+
+<script>
+	// Delegated + idempotent: survives view-transition swaps.
+	document.addEventListener('click', async (event) => {
+		const button = (event.target as Element).closest('#npx-copy');
+		if (!button) return;
+		await navigator.clipboard.writeText('npx azizbecha');
+		const copy = button.querySelector('.npx-copy-icon');
+		const check = button.querySelector('.npx-check-icon');
+		copy?.classList.add('hidden');
+		check?.classList.remove('hidden');
+		setTimeout(() => {
+			copy?.classList.remove('hidden');
+			check?.classList.add('hidden');
+		}, 1500);
+	});
+</script>
