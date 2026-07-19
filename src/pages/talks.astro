@@ -1,0 +1,101 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import { SITE_TITLE } from '../consts';
+import TALKS from '../data/talks.json';
+
+const videoId = (url: string | undefined) => {
+	if (!url) return null;
+	try {
+		return new URL(url).searchParams.get('v');
+	} catch {
+		return null;
+	}
+};
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<BaseHead title={`Talks · ${SITE_TITLE}`} description="Talks I've given, and talks by others worth your time." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="mt-8 mb-10 max-sm:mt-4">
+				<h1 class="text-4xl! mb-2 max-sm:text-3xl!">Talks</h1>
+				<p class="text-muted-foreground mb-0!">Talks I've given, and talks by others worth your time.</p>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="text-2xl! mb-4">My talks</h2>
+				{
+					TALKS.mine.length === 0 ? (
+						<p class="text-muted-foreground">Nothing yet — invite me to speak somewhere.</p>
+					) : (
+						<ul class="grid gap-6 sm:grid-cols-2 list-none m-0 p-0">
+							{TALKS.mine.map((talk) => {
+								const id = videoId(talk.videoUrl);
+								return (
+									<li class="m-0 flex flex-col rounded-lg border border-border overflow-hidden transition-colors hover:border-(--blog-accent)/60">
+										{id && <YouTubeEmbed videoId={id} label={talk.title} />}
+										<div class="flex flex-col flex-1 p-4">
+											<h3 class="text-lg! leading-snug! font-semibold text-foreground m-0!">{talk.title}</h3>
+											<p class="m-0! mt-1 text-xs text-muted-foreground">
+												{talk.event} &middot; {talk.date}
+												{talk.location && <> &middot; {talk.location}</>}
+											</p>
+											{talk.description && <p class="m-0! mt-2 text-sm text-muted-foreground">{talk.description}</p>}
+											{talk.slidesUrl && (
+												<a
+													class="inline-flex items-center gap-1.5 mt-3 text-sm no-underline hover:underline"
+													href={talk.slidesUrl}
+													target="_blank"
+													rel="noopener noreferrer"
+												>
+													<Icon name="lucide:presentation" class="size-3.5" aria-hidden="true" />
+													Slides
+												</a>
+											)}
+										</div>
+									</li>
+								);
+							})}
+						</ul>
+					)
+				}
+			</section>
+
+			{
+				TALKS.favorites.length > 0 && (
+					<section>
+						<h2 class="text-2xl! mb-1">Talks I love</h2>
+						<p class="text-sm text-muted-foreground mb-4">By others — talks that changed how I think.</p>
+						<ul class="grid gap-6 sm:grid-cols-2 list-none m-0 p-0">
+							{TALKS.favorites.map((talk) => {
+								const id = videoId(talk.videoUrl);
+								return (
+									<li class="m-0 flex flex-col rounded-lg border border-border overflow-hidden transition-colors hover:border-(--blog-accent)/60">
+										{id && <YouTubeEmbed videoId={id} label={talk.title} />}
+										<div class="flex flex-col flex-1 p-4">
+											<h3 class="text-lg! leading-snug! font-semibold text-foreground m-0!">{talk.title}</h3>
+											<p class="m-0! mt-1 text-xs text-muted-foreground">
+												{talk.speaker}
+												{talk.event && <> &middot; {talk.event}</>}
+											</p>
+											{talk.description && <p class="m-0! mt-2 text-sm text-muted-foreground">{talk.description}</p>}
+										</div>
+									</li>
+								);
+							})}
+						</ul>
+					</section>
+				)
+			}
+		</main>
+		<Footer />
+	</body>
+</html>

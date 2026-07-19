@@ -76,5 +76,11 @@
 		"host": "Syntax",
 		"url": "https://www.youtube.com/watch?v=quEc5ZI3_Ys",
 		"note": "Evan You on building Vue, Vite, and betting on open source."
+	},
+	{
+		"name": "Building v0 iOS and Fixing React Native Along the Way",
+		"host": "Callstack",
+		"url": "https://www.youtube.com/watch?v=rhLBFKlEXPM",
+		"note": "Shipping Vercel's v0 on iOS and the React Native fixes it took."
 	}
 ]

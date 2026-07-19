@@ -1,0 +1,71 @@
+{
+	"mine": [
+		{
+			"title": "Shipping AI-Powered React Native Apps",
+			"event": "ForkIt Tunis",
+			"date": "April 2026",
+			"location": "Tunis, Tunisia",
+			"description": "One line about what this talk covered.",
+			"videoUrl": "https://www.youtube.com/watch?v=9DzNIUErqBo",
+			"slidesUrl": ""
+		}
+	],
+	"favorites": [
+		{
+			"title": "React for Two Computers",
+			"speaker": "Dan Abramov",
+			"event": "React Conf",
+			"description": "Dan rethinking React's mental model across the server/client boundary.",
+			"videoUrl": "https://www.youtube.com/watch?v=ozI4V_29fj4"
+		},
+		{
+			"title": "Introducing Universal React Server Components in Expo Router",
+			"speaker": "Evan Bacon",
+			"event": "React Conf",
+			"description": "Server components running universally across native and web with Expo Router.",
+			"videoUrl": "https://www.youtube.com/watch?v=djhEgxQf3Kw"
+		},
+		{
+			"title": "Bridging, Compiling, and Rendering: How Cross-Platform Frameworks Work",
+			"speaker": "Mohamed Rejeb",
+			"event": "Fork it! Community",
+			"description": "What actually happens under the hood of cross-platform frameworks.",
+			"videoUrl": "https://www.youtube.com/watch?v=agiwwDeURmQ"
+		},
+		{
+			"title": "Composition Is All You Need",
+			"speaker": "Fernando Rojo",
+			"event": "React Universe Conf 2025",
+			"description": "Why composition beats configuration in React APIs.",
+			"videoUrl": "https://www.youtube.com/watch?v=4KvbVq3Eg5w"
+		},
+		{
+			"title": "Worklets Everywhere: Multithreading in React Native",
+			"speaker": "Tomasz Żelawski",
+			"event": "React Universe Conf 2025",
+			"description": "Running JS off the main thread with worklets across React Native.",
+			"videoUrl": "https://www.youtube.com/watch?v=Td2aADUYMwg"
+		},
+		{
+			"title": "Live React: Hot Reloading with Time Travel",
+			"speaker": "Dan Abramov",
+			"event": "react-europe 2015",
+			"description": "The legendary live demo that introduced Redux and hot reloading to the world.",
+			"videoUrl": "https://www.youtube.com/watch?v=xsSnOQynTHs"
+		},
+		{
+			"title": "React from Another Dimension",
+			"speaker": "Dan Abramov",
+			"event": "RemixConf 2023",
+			"description": "What if React had been invented on the server first? A thought experiment.",
+			"videoUrl": "https://www.youtube.com/watch?v=zMf_xeGPn6s"
+		},
+		{
+			"title": "Async React",
+			"speaker": "Ricky Hanlon",
+			"event": "React Conf",
+			"description": "The React team on async rendering and what it unlocks.",
+			"videoUrl": "https://www.youtube.com/watch?v=B_2E96URooA"
+		}
+	]
+}

@@ -16,6 +16,7 @@ export const NAV_LINKS = [
 	{ href: '/blog/', label: 'Blog' },
 	{ href: '/quotes/', label: 'Quotes' },
 	{ href: '/podcasts/', label: 'Podcasts' },
+	{ href: '/talks/', label: 'Talks' },
 	{ href: '/about/', label: 'About' },
 	{ href: '/contact/', label: 'Contact' },
 ];
