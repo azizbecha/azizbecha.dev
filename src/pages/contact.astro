@@ -3,16 +3,16 @@ import { Icon } from 'astro-icon/components';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { EMAIL, GITHUB_URL, LINKEDIN_URL, SITE_TITLE, X_URL } from '../consts';
+import { FACEBOOK_URL, GITHUB_URL, LINKEDIN_URL, SITE_TITLE, X_URL } from '../consts';
 
 const handle = (url: string) => url.split('/').filter(Boolean).at(-1);
 
 const channels = [
 	{
-		label: 'Email',
-		value: EMAIL,
-		href: `mailto:${EMAIL}`,
-		icon: 'lucide:mail',
+		label: 'Facebook',
+		value: `@${handle(FACEBOOK_URL)}`,
+		href: FACEBOOK_URL,
+		icon: 'lucide:facebook',
 		note: 'Best for anything longer than a tweet.',
 	},
 	{
@@ -61,8 +61,8 @@ const channels = [
 							<a
 								class="group flex items-start gap-3 h-full rounded-lg border border-border p-4 no-underline transition-colors hover:border-(--blog-accent)/60"
 								href={channel.href}
-								target={channel.href.startsWith('mailto:') ? undefined : '_blank'}
-								rel={channel.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+								target="_blank"
+								rel="noopener noreferrer"
 								data-channel-label={channel.label}
 							>
 								<Icon
